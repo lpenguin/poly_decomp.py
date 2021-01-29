@@ -147,7 +147,7 @@ def polygonAppend(polygon, poly, start, end):
     end -- Ending source index (not included in the slice)
 
     """
-    for i in xrange(start, end):
+    for i in range(start, end):
         polygon.append(poly[i])
 
 def polygonMakeCCW(polygon):
@@ -161,7 +161,7 @@ def polygonMakeCCW(polygon):
     v = polygon
 
     # find bottom right point
-    for i in xrange(1, len(polygon)):
+    for i in range(1, len(polygon)):
         if v[i][1] < v[br][1] or (v[i][1] == v[br][1] and v[i][0] > v[br][0]):
             br = i
 
@@ -211,7 +211,7 @@ def polygonCanSee(polygon, a, b):
         return False
 
     dist = sqdist(polygonAt(polygon, a), polygonAt(polygon, b))
-    for i in xrange(0, len(polygon)): # for each edge
+    for i in range(0, len(polygon)): # for each edge
         if (i + 1) % len(polygon) == a or i == a: # ignore incident edges
             continue
 
@@ -243,16 +243,16 @@ def polygonCopy(polygon, i, j, targetPoly=None):
     polygonClear(p)
     if i < j:
         # Insert all vertices from i to j
-        for k in xrange(i, j+1):
+        for k in range(i, j+1):
             p.append(polygon[k])
 
     else:
         # Insert vertices 0 to j
-        for k in xrange(0, j+1):
+        for k in range(0, j+1):
             p.append(polygon[k])
 
         # Insert vertices i to end
-        for k in xrange(i, len(polygon)):
+        for k in range(i, len(polygon)):
             p.append(polygon[k])
 
     return p
@@ -274,14 +274,14 @@ def polygonGetCutEdges(polygon):
     tmpPoly = []
     nDiags = float('inf')
 
-    for i in xrange(0, len(polygon)):
+    for i in range(0, len(polygon)):
         if polygonIsReflex(polygon, i):
-            for j in xrange(0, len(polygon)):
+            for j in range(0, len(polygon)):
                 if polygonCanSee(polygon, i, j):
                     tmp1 = polygonGetCutEdges(polygonCopy(polygon, i, j, tmpPoly))
                     tmp2 = polygonGetCutEdges(polygonCopy(polygon, j, i, tmpPoly))
 
-                    for k in xrange(0, len(tmp2)):
+                    for k in range(0, len(tmp2)):
                         tmp1.append(tmp2[k])
 
                     if len(tmp1) < nDiags:
@@ -325,10 +325,10 @@ def polygonSlice(polygon, cutEdges):
 
         polys = [polygon]
 
-        for i in xrange(0, len(cutEdges)):
+        for i in range(0, len(cutEdges)):
             cutEdge = cutEdges[i]
             # Cut all polys
-            for j in xrange(0, len(polys)):
+            for j in range(0, len(polys)):
                 poly = polys[j]
                 result = polygonSlice(poly, cutEdge)
                 if result:
@@ -366,13 +366,13 @@ def polygonIsSimple(polygon):
     """
     path = polygon
     # Check
-    for i in xrange(0,len(path)-1):
-        for j in xrange(0, i-1):
+    for i in range(0,len(path)-1):
+        for j in range(0, i-1):
             if lineSegmentsIntersect(path[i], path[i+1], path[j], path[j+1]):
                 return False
 
     # Check the segment between the last and the first point to all others
-    for i in xrange(1,len(path)-2):
+    for i in range(1,len(path)-2):
         if lineSegmentsIntersect(path[0], path[len(path)-1], path[i], path[i+1]):
             return False
 
@@ -449,13 +449,13 @@ def polygonQuickDecomp(polygon, result=None, reflexVertices=None, steinerPoints=
         print("quickDecomp: max level ("+str(maxlevel)+") reached.")
         return result
 
-    for i in xrange(0, len(polygon)):
+    for i in range(0, len(polygon)):
         if polygonIsReflex(poly, i):
             reflexVertices.append(poly[i])
             upperDist = float('inf')
             lowerDist = float('inf')
 
-            for j in xrange(0, len(polygon)):
+            for j in range(0, len(polygon)):
                 if isLeft(polygonAt(poly, i - 1), polygonAt(poly, i), polygonAt(poly, j)) and isRightOn(polygonAt(poly, i - 1), polygonAt(poly, i), polygonAt(poly, j - 1)): # if line intersects with an edge
                     p = getIntersectionPoint(polygonAt(poly, i - 1), polygonAt(poly, i), polygonAt(poly, j), polygonAt(poly, j - 1)) # find the point of intersection
                     if isRight(polygonAt(poly, i + 1), polygonAt(poly, i), p): # make sure it's inside the poly
@@ -516,7 +516,7 @@ def polygonQuickDecomp(polygon, result=None, reflexVertices=None, steinerPoints=
                 if upperIndex < lowerIndex:
                     return result
 
-                for j in xrange(lowerIndex, upperIndex+1):
+                for j in range(lowerIndex, upperIndex+1):
                     if isLeftOn(polygonAt(poly, i - 1), polygonAt(poly, i), polygonAt(poly, j)) and isRightOn(polygonAt(poly, i + 1), polygonAt(poly, i), polygonAt(poly, j)):
                         d = sqdist(polygonAt(poly, i), polygonAt(poly, j))
                         if d < closestDist:
